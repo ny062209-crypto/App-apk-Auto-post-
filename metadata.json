@@ -1,0 +1,6 @@
+{
+  "name": "KIRA Auto Post",
+  "description": "Telegram auto-reply application for new group members built by KIRA Gaming with TDLib and Jetpack Compose.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

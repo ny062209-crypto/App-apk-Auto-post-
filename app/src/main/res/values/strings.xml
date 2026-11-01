@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">KIRA Auto Post</string>
+    <string name="app_subtitle">បង្កើតឡើងដោយ KIRA Gaming</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">ទំព័រដើម</string>
+    <string name="nav_accounts">គណនី</string>
+    <string name="nav_groups">ក្រុម</string>
+    <string name="nav_post">ផុស</string>
+    <string name="nav_reports">របាយការណ៍</string>
+    <string name="nav_settings">ការកំណត់</string>
+
+    <!-- Home Screen -->
+    <string name="safe_sending_title">ការការពារគណនី (Safe Sending 40s)</string>
+    <string name="safe_sending_desc">គម្លាតពេលផុស 40 វិនាទី ដើម្បីការពារការ Ban ឬ Flood Wait ពី Telegram</string>
+    <string name="summary_title">ស្ថានភាពសរុប (Summary)</string>
+    <string name="summary_accounts">គណនី</string>
+    <string name="summary_accounts_connected">បានភ្ជាប់</string>
+    <string name="summary_groups_selected">ក្រុមបានជ្រើស</string>
+    <string name="summary_groups_ready">ត្រៀមផុស</string>
+    <string name="results_title">លទ្ធផលនៃការផុសកន្លងមក</string>
+    <string name="results_view_all">មើលរបាយការណ៍ &gt;</string>
+    <string name="stat_success">ជោគជ័យ</string>
+    <string name="stat_failed">បរាជ័យ</string>
+    <string name="stat_skipped">រំលង</string>
+    <string name="quick_actions_title">សកម្មភាពរហ័ស (Quick Actions)</string>
+    <string name="btn_start_posting">ចាប់ផ្តើមផុសសារឥឡូវ (Start Posting)</string>
+    <string name="btn_stop_posting">បញ្ឈប់ការផុសសារ (Stop Posting)</string>
+    <string name="btn_add_telegram_account">+ បន្ថែមគណនី Telegram ថ្មី</string>
+
+    <!-- Accounts Screen -->
+    <string name="accounts_header">គ្រប់គ្រងគណនី Telegram (TDLib User)</string>
+    <string name="accounts_desc">តភ្ជាប់គណនី Telegram ពិតប្រាកដរបស់អ្នកតាមរយៈ API ID &amp; Hash</string>
+    <string name="api_id_label">Telegram API ID</string>
+    <string name="api_hash_label">Telegram API Hash</string>
+    <string name="phone_label">លេខទូរស័ព្ទ (ឧទាហរណ៍: +85512345678)</string>
+    <string name="code_label">លេខកូដផ្ទៀងផ្ទាត់ (Login Code)</string>
+    <string name="password_2fa_label">ពាក្យសម្ងាត់ 2FA (ប្រសិនបើមាន)</string>
+    <string name="btn_send_code">ផ្ញើកូដផ្ទៀងផ្ទាត់</string>
+    <string name="btn_confirm_login">បញ្ជាក់ការចូល</string>
+    <string name="account_status_active">សកម្ម</string>
+    <string name="account_status_inactive">មិនទាន់ភ្ជាប់</string>
+    <string name="btn_delete_account">លុបគណនី</string>
+
+    <!-- Groups Screen -->
+    <string name="groups_header">ជ្រើសរើសក្រុមស្វ័យប្រវត្តិតប (Active Groups)</string>
+    <string name="groups_desc">សារនឹងត្រូវផ្ញើតបដោយស្វ័យប្រវត្តិ នៅពេលមានសមាជិកថ្មីចូលក្នុងក្រុមដែលបានធីក</string>
+    <string name="btn_sync_groups">ផ្ទុកក្រុមឡើងវិញ (Refresh)</string>
+    <string name="members_count">%1$d សមាជិក</string>
+    <string name="no_groups_found">មិនទាន់រកឃើញក្រុមទេ។ សូមភ្ជាប់គណនី Telegram ជាមុនសិន។</string>
+
+    <!-- Post Editor -->
+    <string name="post_header">សារស្វ័យប្រវត្តិ (Auto-Reply Message)</string>
+    <string name="post_text_label">ខ្លឹមសារសារ (Message Text)</string>
+    <string name="post_text_placeholder">សួស្តី! សូមស្វាគមន៍មកកាន់ក្រុមរបស់យើង...</string>
+    <string name="mention_username_label">Mention @username សមាជិកថ្មីនៅលើបន្ទាត់ដំបូង</string>
+    <string name="mention_username_hint">ពេលមានសមាជិកថ្មីចូល នឹងដាក់ @username ឬឈ្មោះរបស់គាត់នៅដើមសារ</string>
+    <string name="media_attachment_label">រូបភាព ឬ វីដេអូភ្ជាប់ (Photo / Video)</string>
+    <string name="btn_select_media">ជ្រើសរូបភាព/វីដេអូពីទូរស័ព្ទ</string>
+    <string name="links_label">តំណភ្ជាប់បន្ថែម (Links / Buttons)</string>
+    <string name="links_placeholder">https://t.me/yourchannel\nhttps://facebook.com/page</string>
+    <string name="btn_save_post">រក្សាទុកការកំណត់សារ</string>
+    <string name="post_saved_toast">បានរក្សាទុកសារជោគជ័យ!</string>
+
+    <!-- Reports -->
+    <string name="reports_header">របាយការណ៍នៃការផុសសារ (Live Logs)</string>
+    <string name="btn_clear_logs">លុបប្រវត្តិ</string>
+    <string name="log_empty">មិនទាន់មានប្រវត្តិនៃការផុសនៅឡើយទេ</string>
+    <string name="status_success">ជោគជ័យ</string>
+    <string name="status_failed">បរាជ័យ</string>
+    <string name="status_flood_wait">Flood Wait (%1$d វិនាទី)</string>
+
+    <!-- Settings -->
+    <string name="settings_header">ការកំណត់ប្រព័ន្ធ (Settings)</string>
+    <string name="safe_delay_label">គម្លាតពេល Safe Sending (វិនាទី)</string>
+    <string name="safe_delay_hint">ស្តង់ដារ 40 វិនាទី + ចៃដន្យ 3-7 វិនាទី ដើម្បីសុវត្ថិភាពខ្ពស់</string>
+    <string name="battery_opt_title">បិទការសន្សំថ្ម (Battery Optimization)</string>
+    <string name="battery_opt_desc">អនុញ្ញាតឱ្យកម្មវិធីដំណើរការ Background បានរលូនមិនគាំងពេលបិទអេក្រង់</string>
+    <string name="btn_disable_battery_opt">បើកការកំណត់ថ្ម</string>
+    <string name="notification_perm_title">ការអនុញ្ញាតជូនដំណឹង (Notification)</string>
+    <string name="notification_perm_desc">បង្ហាញ Foreground Notification ពេលសេវាកំពុងដំណើរការ</string>
+    <string name="btn_grant_perm">ផ្តល់សិទ្ធិ</string>
+
+    <!-- Foreground Service -->
+    <string name="service_running_title">KIRA Auto Post កំពុងដំណើរការ</string>
+    <string name="service_running_desc">កំពុងតាមដានសមាជិកថ្មីក្នុងក្រុមដែលបានជ្រើស...</string>
+    <string name="service_action_stop">បញ្ឈប់ (Stop)</string>
+</resources>

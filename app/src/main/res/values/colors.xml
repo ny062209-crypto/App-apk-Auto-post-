@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors for KIRA Auto Post -->
+    <color name="primary_blue">#1D68EC</color>
+    <color name="primary_blue_dark">#124BBA</color>
+    <color name="primary_blue_light">#E8F0FE</color>
+    <color name="card_bg_blue">#EFF6FF</color>
+    <color name="card_border_blue">#BFDBFE</color>
+    <color name="ic_launcher_background">#000000</color>
+    <color name="text_dark">#1E293B</color>
+    <color name="text_muted">#64748B</color>
+    <color name="success_green">#16A34A</color>
+    <color name="danger_red">#DC2626</color>
+    <color name="warning_amber">#D97706</color>
+    <color name="surface_white">#FFFFFF</color>
+</resources>

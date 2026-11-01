@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">KIRA Auto Post</string>
+    <string name="app_subtitle">Created by KIRA Gaming</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_accounts">Accounts</string>
+    <string name="nav_groups">Groups</string>
+    <string name="nav_post">Post</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="safe_sending_title">Account Protection (Safe Sending 40s)</string>
+    <string name="safe_sending_desc">40s delay between sends to prevent Telegram Ban or Flood Wait restrictions</string>
+    <string name="summary_title">Summary</string>
+    <string name="summary_accounts">Accounts</string>
+    <string name="summary_accounts_connected">Connected</string>
+    <string name="summary_groups_selected">Groups Selected</string>
+    <string name="summary_groups_ready">Ready to Post</string>
+    <string name="results_title">Recent Post Results</string>
+    <string name="results_view_all">View Reports &gt;</string>
+    <string name="stat_success">Success</string>
+    <string name="stat_failed">Failed</string>
+    <string name="stat_skipped">Skipped</string>
+    <string name="quick_actions_title">Quick Actions</string>
+    <string name="btn_start_posting">Start Posting Now</string>
+    <string name="btn_stop_posting">Stop Posting</string>
+    <string name="btn_add_telegram_account">+ Add New Telegram Account</string>
+
+    <!-- Accounts Screen -->
+    <string name="accounts_header">Telegram Account Manager (TDLib User)</string>
+    <string name="accounts_desc">Connect your real Telegram account via API ID &amp; Hash</string>
+    <string name="api_id_label">Telegram API ID</string>
+    <string name="api_hash_label">Telegram API Hash</string>
+    <string name="phone_label">Phone Number (e.g. +85512345678)</string>
+    <string name="code_label">Verification Code (Login Code)</string>
+    <string name="password_2fa_label">2FA Password (if enabled)</string>
+    <string name="btn_send_code">Send Verification Code</string>
+    <string name="btn_confirm_login">Confirm Login</string>
+    <string name="account_status_active">Active</string>
+    <string name="account_status_inactive">Disconnected</string>
+    <string name="btn_delete_account">Delete Account</string>
+
+    <!-- Groups Screen -->
+    <string name="groups_header">Select Auto-Reply Groups</string>
+    <string name="groups_desc">Messages will be sent automatically when a new member joins ticked groups</string>
+    <string name="btn_sync_groups">Refresh Groups</string>
+    <string name="members_count">%1$d members</string>
+    <string name="no_groups_found">No groups found yet. Please connect your Telegram account first.</string>
+
+    <!-- Post Editor -->
+    <string name="post_header">Auto-Reply Message Template</string>
+    <string name="post_text_label">Message Content</string>
+    <string name="post_text_placeholder">Hello! Welcome to our group...</string>
+    <string name="mention_username_label">Mention new member @username on first line</string>
+    <string name="mention_username_hint">Prefaces the message with the newcomer\'s username or name</string>
+    <string name="media_attachment_label">Attached Photo or Video</string>
+    <string name="btn_select_media">Pick Photo/Video from Device</string>
+    <string name="links_label">Additional Links</string>
+    <string name="links_placeholder">https://t.me/yourchannel\nhttps://facebook.com/page</string>
+    <string name="btn_save_post">Save Message Settings</string>
+    <string name="post_saved_toast">Message saved successfully!</string>
+
+    <!-- Reports -->
+    <string name="reports_header">Posting Reports (Live Logs)</string>
+    <string name="btn_clear_logs">Clear Logs</string>
+    <string name="log_empty">No posting logs yet.</string>
+    <string name="status_success">Success</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_flood_wait">Flood Wait (%1$d sec)</string>
+
+    <!-- Settings -->
+    <string name="settings_header">Settings</string>
+    <string name="safe_delay_label">Safe Sending Delay (seconds)</string>
+    <string name="safe_delay_hint">Standard 40 seconds + random 3-7 seconds jitter for safety</string>
+    <string name="battery_opt_title">Disable Battery Optimization</string>
+    <string name="battery_opt_desc">Allows background foreground service to keep running without being killed</string>
+    <string name="btn_disable_battery_opt">Open Battery Settings</string>
+    <string name="notification_perm_title">Notification Permission</string>
+    <string name="notification_perm_desc">Display ongoing status notification when posting service is active</string>
+    <string name="btn_grant_perm">Grant Permission</string>
+
+    <!-- Foreground Service -->
+    <string name="service_running_title">KIRA Auto Post is Running</string>
+    <string name="service_running_desc">Listening for new members in selected groups...</string>
+    <string name="service_action_stop">Stop</string>
+</resources>

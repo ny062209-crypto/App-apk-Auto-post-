@@ -1,0 +1,30 @@
+# AI Studio
+.aistudio/
+
+# Node & Web
+node_modules/
+bun.lock
+bun.lockb
+package-lock.json
+yarn.lock
+dist/
+build/
+coverage/
+*.log
+.DS_Store
+.env*
+!.env.example
+public/*.zip
+
+# Android & Gradle
+.gradle/
+app/build/
+*.apk
+*.aab
+local.properties
+.idea/
+*.iml
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
