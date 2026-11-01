@@ -10,7 +10,7 @@ coroutines = "1.8.1"
 datastore = "1.1.1"
 coil = "2.6.0"
 material3 = "1.2.1"
-tdlib = "1.8.56"
+tdlib = "0.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,8 +28,8 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-# Publicly prebuilt TDLib Android dependency from JitPack
-tdlib = { group = "com.github.tdlibx", name = "td", version.ref = "tdlib" }
+# Prebuilt TDLib Android library from Maven Central
+tdlib = { group = "io.github.tdlib-android", name = "core", version.ref = "tdlib" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

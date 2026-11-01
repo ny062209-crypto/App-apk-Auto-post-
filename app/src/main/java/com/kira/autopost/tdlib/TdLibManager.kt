@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.drinkless.td.libcore.telegram.Client
-import org.drinkless.td.libcore.telegram.TdApi
+import org.drinkless.tdlib.Client
+import org.drinkless.tdlib.TdApi
 import java.io.File
 import kotlin.random.Random
 
@@ -55,10 +55,9 @@ class TdLibManager(
             isTdLibLibraryLoaded = true
             Log.d(tag, "TDLib native library loaded successfully")
         } catch (t: Throwable) {
-            Log.w(tag, "Native TDLib library not loaded yet (will fallback to mock simulation on non-NDK builds): ${t.message}")
+            Log.w(tag, "Native TDLib library not loaded yet: ${t.message}")
         }
 
-        // Initialize sample groups if empty
         loadInitialGroups()
     }
 
@@ -111,21 +110,18 @@ class TdLibManager(
 
         try {
             client = Client.create(this, null, null)
-            // Set TDLib parameters
             val dbDir = File(context.filesDir, "tdlib_db").absolutePath
-            val filesDir = File(context.filesDir, "tdlib_files").absolutePath
 
-            val parameters = TdApi.SetTdlibParameters().apply {
-                databaseDirectory = dbDir
-                useMessageDatabase = true
-                useSecretChats = false
-                apiId = currentApiId
-                apiHash = currentApiHash
-                systemLanguageCode = "en"
-                deviceModel = "Android"
-                applicationVersion = "1.0.0"
-                enableStorageOptimizer = true
-            }
+            val parameters = TdApi.SetTdlibParameters()
+            parameters.databaseDirectory = dbDir
+            parameters.useMessageDatabase = true
+            parameters.useSecretChats = false
+            parameters.apiId = currentApiId
+            parameters.apiHash = currentApiHash
+            parameters.systemLanguageCode = "en"
+            parameters.deviceModel = "Android"
+            parameters.applicationVersion = "1.0.0"
+            parameters.enableStorageOptimizer = true
 
             client?.send(parameters, this)
         } catch (e: Exception) {
@@ -145,12 +141,11 @@ class TdLibManager(
 
     fun checkCode(code: String) {
         if (!isTdLibLibraryLoaded) {
-            val user = TdApi.User().apply {
-                id = 998877L
-                firstName = "KIRA"
-                lastName = "Gaming"
-                username = "kiragaming"
-            }
+            val user = TdApi.User()
+            user.id = 998877L
+            user.firstName = "KIRA"
+            user.lastName = "Gaming"
+            user.username = "kiragaming"
             _authState.value = AuthState.Authenticated(user)
             return
         }
@@ -160,12 +155,11 @@ class TdLibManager(
 
     fun checkPassword(password: String) {
         if (!isTdLibLibraryLoaded) {
-            val user = TdApi.User().apply {
-                id = 998877L
-                firstName = "KIRA"
-                lastName = "Gaming"
-                username = "kiragaming"
-            }
+            val user = TdApi.User()
+            user.id = 998877L
+            user.firstName = "KIRA"
+            user.lastName = "Gaming"
+            user.username = "kiragaming"
             _authState.value = AuthState.Authenticated(user)
             return
         }
@@ -203,17 +197,16 @@ class TdLibManager(
         when (state.constructor) {
             TdApi.AuthorizationStateWaitTdlibParameters.CONSTRUCTOR -> {
                 val dbDir = File(context.filesDir, "tdlib_db").absolutePath
-                val req = TdApi.SetTdlibParameters().apply {
-                    databaseDirectory = dbDir
-                    useMessageDatabase = true
-                    useSecretChats = false
-                    apiId = currentApiId
-                    apiHash = currentApiHash
-                    systemLanguageCode = "en"
-                    deviceModel = "Android"
-                    applicationVersion = "1.0.0"
-                    enableStorageOptimizer = true
-                }
+                val req = TdApi.SetTdlibParameters()
+                req.databaseDirectory = dbDir
+                req.useMessageDatabase = true
+                req.useSecretChats = false
+                req.apiId = currentApiId
+                req.apiHash = currentApiHash
+                req.systemLanguageCode = "en"
+                req.deviceModel = "Android"
+                req.applicationVersion = "1.0.0"
+                req.enableStorageOptimizer = true
                 client?.send(req, this)
             }
             TdApi.AuthorizationStateWaitPhoneNumber.CONSTRUCTOR -> {
@@ -226,12 +219,12 @@ class TdLibManager(
                 _authState.value = AuthState.WaitPassword
             }
             TdApi.AuthorizationStateReady.CONSTRUCTOR -> {
-                client?.send(TdApi.GetMe()) { userObj ->
+                client?.send(TdApi.GetMe(), Client.ResultHandler { userObj ->
                     if (userObj is TdApi.User) {
                         _authState.value = AuthState.Authenticated(userObj)
                         saveUserAccount(userObj)
                     }
-                }
+                })
                 fetchUserChats()
             }
         }
@@ -244,22 +237,24 @@ class TdLibManager(
         val selectedIds = appPreferences.selectedGroupIds.value
         if (!selectedIds.contains(chatId)) return
 
-        // Check if message is a new member join service message
         when (val content = message.content) {
             is TdApi.MessageChatAddMembers -> {
                 for (memberUserId in content.memberUserIds) {
-                    client?.send(TdApi.GetUser(memberUserId)) { userObj ->
+                    client?.send(TdApi.GetUser(memberUserId), Client.ResultHandler { userObj ->
                         if (userObj is TdApi.User) {
                             scheduleAutoReply(chatId, message.id, userObj)
                         }
-                    }
+                    })
                 }
             }
             is TdApi.MessageChatJoinByLink, is TdApi.MessageChatJoinByRequest -> {
-                client?.send(TdApi.GetUser(message.senderId.let { (it as? TdApi.MessageSenderUser)?.userId ?: 0L })) { userObj ->
-                    if (userObj is TdApi.User) {
-                        scheduleAutoReply(chatId, message.id, userObj)
-                    }
+                val senderId = (message.senderId as? TdApi.MessageSenderUser)?.userId ?: 0L
+                if (senderId != 0L) {
+                    client?.send(TdApi.GetUser(senderId), Client.ResultHandler { userObj ->
+                        if (userObj is TdApi.User) {
+                            scheduleAutoReply(chatId, message.id, userObj)
+                        }
+                    })
                 }
             }
         }
@@ -271,17 +266,14 @@ class TdLibManager(
         if (!appPreferences.selectedGroupIds.value.contains(chatId)) return
 
         if (update.newChatMember.status is TdApi.ChatMemberStatusMember) {
-            client?.send(TdApi.GetUser(update.userId)) { userObj ->
+            client?.send(TdApi.GetUser(update.userId), Client.ResultHandler { userObj ->
                 if (userObj is TdApi.User) {
                     scheduleAutoReply(chatId, 0L, userObj)
                 }
-            }
+            })
         }
     }
 
-    /**
-     * Executes auto-reply respecting Safe Sending interval (default 40s + random jitter)
-     */
     fun scheduleAutoReply(chatId: Long, replyToMessageId: Long, user: TdApi.User) {
         scope.launch {
             val template = appPreferences.postTemplate.value
@@ -291,7 +283,6 @@ class TdLibManager(
 
             Log.d(tag, "Scheduling auto-reply to user ${user.username ?: user.firstName} with delay: ${baseDelay + jitter}s")
 
-            // Format message text
             val mention = if (template.mentionUsername) {
                 if (!user.username.isNullOrEmpty()) "@${user.username} " else "${user.firstName} "
             } else ""
@@ -308,40 +299,37 @@ class TdLibManager(
                 }
             }.trim()
 
-            // Safe Delay wait
             kotlinx.coroutines.delay(totalDelay)
 
-            // Send via TDLib
             val content: TdApi.InputMessageContent = if (!template.mediaUri.isNullOrEmpty()) {
                 if (template.mediaType == "video") {
                     val inputVideo = TdApi.InputFileLocal(template.mediaUri)
-                    TdApi.InputMessageVideo().apply {
-                        video = inputVideo
-                        caption = TdApi.FormattedText(fullText, null)
-                    }
+                    val msgVideo = TdApi.InputMessageVideo()
+                    msgVideo.video = inputVideo
+                    msgVideo.caption = TdApi.FormattedText(fullText, null)
+                    msgVideo
                 } else {
                     val inputPhoto = TdApi.InputFileLocal(template.mediaUri)
-                    TdApi.InputMessagePhoto().apply {
-                        photo = inputPhoto
-                        caption = TdApi.FormattedText(fullText, null)
-                    }
+                    val msgPhoto = TdApi.InputMessagePhoto()
+                    msgPhoto.photo = inputPhoto
+                    msgPhoto.caption = TdApi.FormattedText(fullText, null)
+                    msgPhoto
                 }
             } else {
-                TdApi.InputMessageText().apply {
-                    text = TdApi.FormattedText(fullText, null)
-                }
+                val msgText = TdApi.InputMessageText()
+                msgText.text = TdApi.FormattedText(fullText, null)
+                msgText
             }
 
-            val sendReq = TdApi.SendMessage().apply {
-                this.chatId = chatId
-                this.inputMessageContent = content
-            }
+            val sendReq = TdApi.SendMessage()
+            sendReq.chatId = chatId
+            sendReq.inputMessageContent = content
 
-            client?.send(sendReq) { result ->
+            client?.send(sendReq, Client.ResultHandler { result ->
                 if (result is TdApi.Message) {
                     val report = PostReport(
                         groupTitle = "Group #$chatId",
-                        memberName = "${user.firstName} ${user.lastName}".trim(),
+                        memberName = "${user.firstName} ${user.lastName ?: ""}".trim(),
                         memberUsername = user.username ?: "",
                         status = PostStatus.SUCCESS,
                         messagePreview = fullText.take(80)
@@ -350,7 +338,7 @@ class TdLibManager(
                 } else if (result is TdApi.Error) {
                     handleSendError(result, chatId, replyToMessageId, user, fullText)
                 }
-            }
+            })
         }
     }
 
@@ -367,7 +355,7 @@ class TdLibManager(
             Log.w(tag, "FLOOD_WAIT triggered: waiting $waitSec seconds")
             val report = PostReport(
                 groupTitle = "Group #$chatId",
-                memberName = "${user.firstName} ${user.lastName}".trim(),
+                memberName = "${user.firstName} ${user.lastName ?: ""}".trim(),
                 memberUsername = user.username ?: "",
                 status = PostStatus.FLOOD_WAIT,
                 floodWaitSeconds = waitSec,
@@ -378,7 +366,7 @@ class TdLibManager(
         } else {
             val report = PostReport(
                 groupTitle = "Group #$chatId",
-                memberName = "${user.firstName} ${user.lastName}".trim(),
+                memberName = "${user.firstName} ${user.lastName ?: ""}".trim(),
                 memberUsername = user.username ?: "",
                 status = PostStatus.FAILED,
                 messagePreview = preview,
@@ -397,11 +385,12 @@ class TdLibManager(
 
     private fun fetchUserChats() {
         val req = TdApi.GetChats(TdApi.ChatListMain(), 100)
-        client?.send(req) { result ->
+        client?.send(req, Client.ResultHandler { result ->
             if (result is TdApi.Chats) {
                 val groupList = mutableListOf<TelegramGroup>()
-                for (cId in result.chatIds) {
-                    client?.send(TdApi.GetChat(cId)) { chatObj ->
+                val ids = result.chatIds ?: longArrayOf()
+                for (cId in ids) {
+                    client?.send(TdApi.GetChat(cId), Client.ResultHandler { chatObj ->
                         if (chatObj is TdApi.Chat) {
                             val isSupergroupOrBasic = chatObj.type is TdApi.ChatTypeSupergroup ||
                                     chatObj.type is TdApi.ChatTypeBasicGroup
@@ -410,8 +399,8 @@ class TdLibManager(
                                 groupList.add(
                                     TelegramGroup(
                                         id = chatObj.id,
-                                        title = chatObj.title,
-                                        memberCount = 100, // Will be updated
+                                        title = chatObj.title ?: "Group",
+                                        memberCount = 100,
                                         photoPath = null,
                                         isSelected = isSelected
                                     )
@@ -419,10 +408,10 @@ class TdLibManager(
                                 _groups.value = groupList.toList()
                             }
                         }
-                    }
+                    })
                 }
             }
-        }
+        })
     }
 
     private fun saveUserAccount(user: TdApi.User) {
